@@ -8,7 +8,6 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <RelativePanel>
         <!--<Menu DockPanel.Dock="Top" x:Name="menu">
             <MenuItem Header="File">
                 <MenuItem Header ="New"/>
@@ -18,20 +17,30 @@
                 <MenuItem Header ="Lessons ..."/>
             </MenuItem>
         </Menu>-->
-        <StackPanel Margin="10">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <ListBox x:Name="listBox"
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="asd"
+                        Content="qweqwe"
+                        Grid.Row="0"
+                        Grid.Column="0"/>
+        <ListBox x:Name="listBox"
                          Height="100"
-                         Grid.Row="0"
-                         Grid.Column="0"/>
-            </Grid>
-        </StackPanel>
-    </RelativePanel>
+                         Grid.Row="1"
+                         Grid.Column="0">
+            <ListBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Width="65"/>
+                    <TextBox x:Name="georgescu" Text="serger" HorizontalAlignment="Left"></TextBox>
+                </StackPanel>
+            </ListBoxItem>
+        </ListBox>
+    </Grid>
 </Page>

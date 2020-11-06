@@ -1,4 +1,6 @@
-﻿using System;
+﻿using InvataGermana.Data;
+using InvataGermana.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +27,45 @@ namespace InvataGermana
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private void btnAddLesson_Click(object sender, RoutedEventArgs e)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var lesson = new Lesson { Title = tbLessonName.Text };
+
+                db.lessons.Add(lesson);
+                db.SaveChanges();
+
+                listViewLessons.ItemsSource = db.lessons.ToList();
+            }
+
+        }
+
+        private void btnDeleteLesson_Click(object sender, RoutedEventArgs e)
+        {
+            var item = listViewLessons.SelectedItem as Lesson;
+            if (item is null)
+            {
+                return;
+            }
+
+            using (var db = new ApplicationDbContext())
+            {
+                db.lessons.Remove(item);
+                db.SaveChanges();
+
+                listViewLessons.ItemsSource = db.lessons.ToList();
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                listViewLessons.ItemsSource = db.lessons.ToList();
+            }
         }
     }
 }

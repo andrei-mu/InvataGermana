@@ -1,4 +1,6 @@
-﻿using System;
+﻿using InvataGermana.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,6 +32,11 @@ namespace InvataGermana
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            using (var db = new ApplicationDbContext())
+            {
+                db.Database.Migrate();
+            }
         }
 
         /// <summary>

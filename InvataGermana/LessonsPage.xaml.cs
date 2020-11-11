@@ -15,19 +15,24 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace InvataGermana
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class LessonsPage : Page
     {
-        public MainPage()
+        public LessonsPage()
         {
             this.InitializeComponent();
-            frameContent.Navigate(typeof(LessonsPage));
+
+            using (var db = new ApplicationDbContext())
+            {
+                listViewLessons.ItemsSource = db.lessons.OrderBy(x => x.Title).ToList();
+            }
+
         }
 
         private void btnAddLesson_Click(object sender, RoutedEventArgs e)
@@ -60,14 +65,6 @@ namespace InvataGermana
                 db.SaveChanges();
 
                 listViewLessons.ItemsSource = db.lessons.ToList();
-            }
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            using (var db = new ApplicationDbContext())
-            {
-                listViewLessons.ItemsSource = db.lessons.OrderBy(x => x.Title).ToList();
             }
         }
     }

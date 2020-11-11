@@ -10,6 +10,7 @@ namespace InvataGermana.Model
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public List<Noun> Nouns { get; }
 
         public override string ToString()
         {

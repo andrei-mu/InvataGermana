@@ -11,6 +11,7 @@ namespace InvataGermana.Data
     class ApplicationDbContext : DbContext
     {
         public DbSet<Lesson> lessons { get; set; }
+        public DbSet<Noun> nouns{ get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

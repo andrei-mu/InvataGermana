@@ -132,13 +132,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20201106172314_FirstMigration.cs" />
-    <Compile Include="Migrations\20201106172314_FirstMigration.designer.cs">
-      <DependentUpon>20201106172314_FirstMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20201111165243_NounsMigration.cs" />
-    <Compile Include="Migrations\20201111165243_NounsMigration.designer.cs">
-      <DependentUpon>20201111165243_NounsMigration.cs</DependentUpon>
+    <Compile Include="Migrations\20201111183458_InitialCreate.cs" />
+    <Compile Include="Migrations\20201111183458_InitialCreate.designer.cs">
+      <DependentUpon>20201111183458_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="Model\Lesson.cs" />

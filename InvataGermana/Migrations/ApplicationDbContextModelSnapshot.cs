@@ -18,41 +18,42 @@ namespace InvataGermana.Migrations
 
             modelBuilder.Entity("InvataGermana.Model.Lesson", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Title");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
                     b.ToTable("lessons");
                 });
 
             modelBuilder.Entity("InvataGermana.Model.Noun", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Gen");
 
-                    b.Property<int?>("ParentLessonId");
+                    b.Property<int>("LessonID");
 
                     b.Property<string>("Plural");
 
                     b.Property<string>("Singular");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
-                    b.HasIndex("ParentLessonId");
+                    b.HasIndex("LessonID");
 
                     b.ToTable("nouns");
                 });
 
             modelBuilder.Entity("InvataGermana.Model.Noun", b =>
                 {
-                    b.HasOne("InvataGermana.Model.Lesson", "ParentLesson")
+                    b.HasOne("InvataGermana.Model.Lesson", "Lesson")
                         .WithMany("Nouns")
-                        .HasForeignKey("ParentLessonId");
+                        .HasForeignKey("LessonID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

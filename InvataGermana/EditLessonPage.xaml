@@ -12,23 +12,76 @@
     <Grid Background="BlanchedAlmond">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <ListView x:Name="listViewLessons"
                   Margin="10"
                   BorderBrush="{ThemeResource SystemControlHyperlinkTextBrush}"
                   Grid.Column="0"
-                  BorderThickness="2">
+                  BorderThickness="2"
+                  SelectionMode="Single"
+                  SelectionChanged="listViewLessons_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
                         <TextBlock Foreground="CornflowerBlue"
                                    Margin="1"
-                                   Text="{Binding Title}"/>
+                                   Text="{Binding ListCaption}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Grid Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ListView x:Name="listLessonNouns"
+                          Margin="5"
+                          BorderBrush="{ThemeResource SystemControlHyperlinkTextBrush}"
+                          Grid.Row="1"
+                          Grid.Column="0"
+                          BorderThickness="2"
+                          SelectionMode="Single">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Foreground="{ThemeResource SystemBaseHighColor}"
+                                           Text="{Binding ListCaption}"
+                                           FontSize="12"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <StackPanel Grid.Row="1" Grid.Column="1">
+                    <TextBox x:Name="tbNouns" Margin="5" Grid.Column="0"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="btnDer"
+                            Content="Add DER"
+                            Margin="5"
+                            Click="btnDer_Click"/>
+                        <Button x:Name="btnDie"
+                            Content="Add DIE"
+                            Margin="5"
+                            Click="btnDie_Click"/>
+                        <Button x:Name="btnDas"
+                            Content="Add DAS"
+                            Margin="5"
+                            Click="btnDas_Click"/>
+                        <Button x:Name="btnDelete"
+                            Content="Delete"
+                            Margin="20,0,0,0"
+                            Click="btnDelete_Click"/>
 
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

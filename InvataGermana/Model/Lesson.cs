@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,13 +9,17 @@ namespace InvataGermana.Model
 {
     class Lesson
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string Title { get; set; }
-        public List<Noun> Nouns { get; }
+        public virtual ICollection<Noun> Nouns { get; set; }
 
-        public override string ToString()
+        [NotMapped]
+        public string ListCaption
         {
-            return Title;
+            get
+            {
+                return Title;
+            }
         }
     }
 }

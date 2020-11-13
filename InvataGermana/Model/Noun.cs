@@ -29,11 +29,8 @@ namespace InvataGermana.Model
         {
             get
             {
-                var singular = Singular.ToUpper()[0] + Singular.Substring(1);
-                var plural = Plural.ToUpper()[0] + Plural.Substring(1);
                 var gen = Gen.ToString();
-
-                return $"{gen} {singular}; Die {plural}";
+                return $"{gen} {Singular}; Die {Plural}";
             }
         }
     }

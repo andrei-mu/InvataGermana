@@ -8,34 +8,99 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded">
-   
+
     <Grid Background="BlanchedAlmond">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
         <ListView x:Name="listViewLessons"
                   Margin="10"
-                  Grid.Row="1"
-                  Grid.Column="0" BorderBrush="{ThemeResource SystemControlHyperlinkTextBrush}">
+                  BorderBrush="{ThemeResource SystemControlHyperlinkTextBrush}"
+                  Grid.Column="0"
+                  BorderThickness="2"
+                  SelectionMode="Multiple"
+                  SelectionChanged="listViewLessons_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="6*"/>
-                            <ColumnDefinition Width="3*"/>
-                        </Grid.ColumnDefinitions>
-                        <CheckBox Background="Bisque"
-                                  Margin="10"
-                                  Grid.Column="0"/>
+                    <StackPanel>
                         <TextBlock Foreground="CornflowerBlue"
-                                   Margin="10"
-                                   Grid.Column="1"
-                                   Text="{Binding Title}"/>
-                        <Button Content="argfasrg"
-                                Margin="10"
-                                Grid.Column="2"/>
-                    </Grid>
+                                   Margin="1"
+                                   Text="{Binding ListCaption}"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
+        <Grid Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="5"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Orientation="Horizontal">
+                    <TextBlock Text="You have selected" FontSize="18"/>
+                    <TextBlock x:Name="lessonsCount" Text="0" FontSize="18" FontWeight="Bold" Margin="5,0,5,0"/>
+                    <TextBlock Text="lessons and" FontSize="18"/>
+                    <TextBlock x:Name="nounsCount" Text="0" FontSize="18" FontWeight="Bold" Margin="5,0,5,0"/>
+                    <TextBlock Text="nouns." FontSize="18"/>
+                    
+                </StackPanel>
+                <Border Margin="5"
+                        BorderBrush="{x:Null}"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Height="130">
+                    <TextBlock x:Name="currentNoun"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontSize="80"
+                               FontWeight="Bold" />
+                </Border>
+                <Border Margin="5"
+                        BorderBrush="{x:Null}"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Height="100">
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                        <Button x:Name="btnDer"
+                                Content="DER"
+                                FontSize="50"
+                                Width="150"
+                                Background="DarkGray"
+                                Margin="10,0,10,0"
+                                Click="btnDer_Click"/>
+                        <Button x:Name="btnDie"
+                                Content="DIE"
+                                FontSize="50"
+                                Width="150"
+                                Background="Crimson"
+                                Margin="10,0,10,0"
+                                Click="btnDie_Click"/>
+                        <Button x:Name="btnDas"
+                                Content="DAS"
+                                FontSize="50"
+                                Width="150"
+                                Background="Goldenrod"
+                                Margin="10,0,10,0"
+                                Click="btnDas_Click"/>
+                    </StackPanel>
+                </Border>                        
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

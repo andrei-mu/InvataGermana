@@ -13,7 +13,7 @@
             <Windows10FallCreatorsUpdate:NavigationView.MenuItems>
                 <Windows10FallCreatorsUpdate:NavigationViewItem Icon="Character" Content="Lessons" Tag="LessonsPage" />
                 <Windows10FallCreatorsUpdate:NavigationViewItem Icon="Save" Content="Edit lesson" Tag="EditLessonPage" />
-                <!--<Windows10FallCreatorsUpdate:NavigationViewItem Icon="Refresh" Content="Menu Item3" Tag="SamplePage3" />-->
+                <Windows10FallCreatorsUpdate:NavigationViewItem Icon="Library" Content="Der Die Das ..." Tag="DerDieDasPage" />
                 <!--<Windows10FallCreatorsUpdate:NavigationViewItem Icon="Download" Content="Menu Item4" Tag="SamplePage4" />-->
             </Windows10FallCreatorsUpdate:NavigationView.MenuItems>
             <Grid>

@@ -67,5 +67,10 @@ namespace InvataGermana
                 listViewLessons.ItemsSource = db.lessons.ToList();
             }
         }
+
+        private void listViewLessons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

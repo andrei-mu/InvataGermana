@@ -38,6 +38,10 @@ namespace InvataGermana
                 case "EditLessonPage":
                     contentFrame.Navigate(typeof(EditLessonPage));
                     break;
+                case "DerDieDasPage":
+                    contentFrame.Navigate(typeof(DerDieDasPage));
+                    break;
+
 
             }
 

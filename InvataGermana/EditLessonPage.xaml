@@ -35,13 +35,19 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="5*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <TextBlock x:Name="tbNounsCount"
+                           Margin="5"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           FontWeight="Bold"
+                           FontSize="16"/>
                 <ListView x:Name="listLessonNouns"
                           Margin="5"
                           BorderBrush="{ThemeResource SystemControlHyperlinkTextBrush}"

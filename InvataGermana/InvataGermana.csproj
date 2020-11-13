@@ -139,6 +139,7 @@
     <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="Model\Lesson.cs" />
     <Compile Include="Model\Noun.cs" />
+    <Compile Include="Model\NounTranslation.cs" />
     <Compile Include="NavPage.xaml.cs">
       <DependentUpon>NavPage.xaml</DependentUpon>
     </Compile>

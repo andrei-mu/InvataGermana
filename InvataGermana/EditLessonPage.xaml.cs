@@ -76,6 +76,12 @@ namespace InvataGermana
             if (parts.Length != 2)
                 return;
 
+            var s = parts[0];
+            var p = parts[1];
+
+            var ss = s.ToUpper()[0] + s.Substring(1).ToLower();
+            var pp = p.ToUpper()[0] + p.Substring(1).ToLower();
+
             using (var db = new ApplicationDbContext())
             {
                 var lesson = GetCurrentLesson(db);
@@ -84,8 +90,8 @@ namespace InvataGermana
                     Noun noun = new Noun
                     {
                         Gen = gender,
-                        Singular = parts[0],
-                        Plural = parts[1],
+                        Singular = ss.Trim(),
+                        Plural = pp.Trim(),
                         LessonID = lesson.ID
                     };
 
@@ -96,6 +102,8 @@ namespace InvataGermana
                 }
 
             }
+
+            tbNouns.Text = string.Empty;
         }
 
         private void listViewLessons_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -110,13 +118,15 @@ namespace InvataGermana
         {
             var lesson = GetCurrentLesson(dbContext);
 
-            if (lesson != null)
+            if (lesson == null)
             {
-                var allnouns = dbContext.nouns.ToList();
-                var nouns = dbContext.nouns.Where(x => x.LessonID == lesson.ID).OrderBy(x => x.Singular).ToList();
-                listLessonNouns.ItemsSource = nouns;
+                return;
             }
 
+            var allnouns = dbContext.nouns.ToList();
+            var nouns = dbContext.nouns.Where(x => x.LessonID == lesson.ID).OrderBy(x => x.Singular).ToList();
+            listLessonNouns.ItemsSource = nouns;
+            tbNounsCount.Text = $"Lesson [{lesson.Title}] has {nouns.Count()} nouns.";
         }
         private Lesson GetCurrentLesson(ApplicationDbContext dbContext)
         {

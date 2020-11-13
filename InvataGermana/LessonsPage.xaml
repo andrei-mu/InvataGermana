@@ -8,14 +8,30 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="8*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <Grid Background="BlanchedAlmond">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="listViewLessons"
+                  Margin="10"
+                  BorderBrush="{ThemeResource SystemControlHyperlinkTextBrush}"
+                  Grid.Column="0"
+                  BorderThickness="2"
+                  SelectionMode="Single"
+                  SelectionChanged="listViewLessons_SelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Foreground="CornflowerBlue"
+                                   Margin="1"
+                                   Text="{Binding ListCaption}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <StackPanel Grid.Row="0"
-                    Grid.Column="0">
+                    Grid.Column="1">
             <TextBox x:Name="tbLessonName"
                  Grid.Row="0"
                  TextWrapping="NoWrap"
@@ -33,20 +49,5 @@
                         Click="btnDeleteLesson_Click"/>
             </StackPanel>
         </StackPanel>
-        <ListView x:Name="listViewLessons"
-                  Margin="10"
-                  Grid.Row="1"
-                  BorderBrush="{ThemeResource SystemControlHyperlinkTextBrush}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Margin="10">
-                        <TextBlock Foreground="{ThemeResource SystemListAccentMediumColor}"
-                                   FontWeight="SemiBold"
-                                   FontSize="18"
-                                   Text="{Binding Title}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
     </Grid>
 </Page>

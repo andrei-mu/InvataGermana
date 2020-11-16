@@ -44,7 +44,11 @@ namespace InvataGermana
 
 
             }
+        }
 
+        public void PrepareSuspension()
+        {
+            contentFrame.GetNavigationState();
         }
     }
 }

@@ -33,5 +33,15 @@ namespace InvataGermana.Model
                 return $"{gen} {Singular}; Die {Plural}";
             }
         }
+
+        [NotMapped]
+        public string SingularCaption
+        {
+            get
+            {
+                return $"{Gen.ToString()} {Singular}";
+            }
+        }
+
     }
 }

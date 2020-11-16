@@ -101,6 +101,14 @@ namespace InvataGermana
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            if (rootFrame != null)
+            {
+                var navPage = rootFrame.Content as NavPage;
+                navPage.PrepareSuspension();
+
+            }
             deferral.Complete();
         }
     }

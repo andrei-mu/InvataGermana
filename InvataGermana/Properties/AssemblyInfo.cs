@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("InvataGermana")]
+[assembly: AssemblyTitle("Invata Germana")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Avira Operations GmbH & Co. KG;")]
+[assembly: AssemblyCompany("home")]
 [assembly: AssemblyProduct("InvataGermana")]
-[assembly: AssemblyCopyright("Copyright © Avira Operations GmbH & Co. KG; 2020")]
+[assembly: AssemblyCopyright("Andrei Muraru")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -9,8 +9,8 @@ using InvataGermana.Model;
 namespace InvataGermana.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201111183458_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201116181021_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,15 +36,17 @@ namespace InvataGermana.Migrations
 
                     b.Property<int>("Gen");
 
-                    b.Property<int>("LessonID");
+                    b.Property<int>("LessonId");
 
                     b.Property<string>("Plural");
 
                     b.Property<string>("Singular");
 
+                    b.Property<string>("Translation");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("LessonID");
+                    b.HasIndex("LessonId");
 
                     b.ToTable("nouns");
                 });
@@ -53,7 +55,7 @@ namespace InvataGermana.Migrations
                 {
                     b.HasOne("InvataGermana.Model.Lesson", "Lesson")
                         .WithMany("Nouns")
-                        .HasForeignKey("LessonID")
+                        .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

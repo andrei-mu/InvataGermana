@@ -35,15 +35,17 @@ namespace InvataGermana.Migrations
 
                     b.Property<int>("Gen");
 
-                    b.Property<int>("LessonID");
+                    b.Property<int>("LessonId");
 
                     b.Property<string>("Plural");
 
                     b.Property<string>("Singular");
 
+                    b.Property<string>("Translation");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("LessonID");
+                    b.HasIndex("LessonId");
 
                     b.ToTable("nouns");
                 });
@@ -52,7 +54,7 @@ namespace InvataGermana.Migrations
                 {
                     b.HasOne("InvataGermana.Model.Lesson", "Lesson")
                         .WithMany("Nouns")
-                        .HasForeignKey("LessonID")
+                        .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

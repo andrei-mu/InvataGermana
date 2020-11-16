@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InvataGermana.Model
+namespace InvataGermana.Model.AppModel
 {
     class Noun
     {
@@ -20,10 +20,9 @@ namespace InvataGermana.Model
         public Gender Gen { get; set; }
         public string Singular { get; set; }
         public string Plural { get; set; }
-        public string Translation { get; set; }
 
-        public int LessonId { get; set; }
-        public virtual Lesson Lesson { get; set; }
+        public int LessonID { get; set; }
+        public Lesson Lesson { get; set; }
 
         [NotMapped]
         public string ListCaption
@@ -31,13 +30,7 @@ namespace InvataGermana.Model
             get
             {
                 var gen = Gen.ToString();
-
-                if (string.IsNullOrEmpty(Translation))
-                {
-                    return $"{gen} {Singular}; Die {Plural}";
-                }
-
-                return $"{gen} {Singular}; Die {Plural} = [{Translation}]";
+                return $"{gen} {Singular}; Die {Plural}";
             }
         }
 

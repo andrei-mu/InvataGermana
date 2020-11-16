@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InvataGermana.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,25 +28,26 @@ namespace InvataGermana.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
                     Gen = table.Column<int>(nullable: false),
-                    LessonID = table.Column<int>(nullable: false),
+                    LessonId = table.Column<int>(nullable: false),
                     Plural = table.Column<string>(nullable: true),
-                    Singular = table.Column<string>(nullable: true)
+                    Singular = table.Column<string>(nullable: true),
+                    Translation = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_nouns", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_nouns_lessons_LessonID",
-                        column: x => x.LessonID,
+                        name: "FK_nouns_lessons_LessonId",
+                        column: x => x.LessonId,
                         principalTable: "lessons",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_nouns_LessonID",
+                name: "IX_nouns_LessonId",
                 table: "nouns",
-                column: "LessonID");
+                column: "LessonId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

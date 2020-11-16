@@ -114,7 +114,7 @@ namespace InvataGermana
 
             using (var db = new ApplicationDbContext())
             {
-                selectedNouns = db.nouns.Where(x => lessons.Any(y => y.ID == x.LessonID)).ToList();
+                selectedNouns = db.nouns.Where(x => lessons.Any(y => y.ID == x.Lesson.ID)).ToList();
             }
 
             lessonsCount.Text = listViewLessons.SelectedItems.Count.ToString();
@@ -128,6 +128,7 @@ namespace InvataGermana
             if (selectedNouns.Count == 0)
             {
                 currentNoun.Text = string.Empty;
+                ActiveNoun = null;
 
                 return;
             }
@@ -135,6 +136,8 @@ namespace InvataGermana
             int idx = random.Next(selectedNouns.Count);
             ActiveNoun = selectedNouns[idx];
             currentNoun.Text = ActiveNoun.Singular;
+
+            textError.Visibility = Visibility.Collapsed;
         }
 
         private void btnDer_Click(object sender, RoutedEventArgs e)
@@ -154,6 +157,12 @@ namespace InvataGermana
 
         private void DerDieDasOption(Noun.Gender gender)
         {
+            if (ActiveNoun == null)
+            {
+                textError.Visibility = Visibility.Visible;
+                return;
+            }
+
             noTries++;
             int trySucc = 0,
                 tryTot = 1;
@@ -172,8 +181,6 @@ namespace InvataGermana
                     trySucc += tries.Item1;
                     tryTot += tries.Item2;
                 }
-
-
             }
             else
             {
@@ -193,6 +200,13 @@ namespace InvataGermana
             textSessionStats.Text = $"{noSuccess} correct from {noTries} tries";
 
             UpdateSelectedNoun();
+        }
+
+        private void btnClearResults_Click(object sender, RoutedEventArgs e)
+        {
+            noTries = 0;
+            noSuccess = 0;
+            nounStats.Clear();
         }
     }
 

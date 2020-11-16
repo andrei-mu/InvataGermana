@@ -107,7 +107,6 @@ namespace InvataGermana
             {
                 var navPage = rootFrame.Content as NavPage;
                 navPage.PrepareSuspension();
-
             }
             deferral.Complete();
         }

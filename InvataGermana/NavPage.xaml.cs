@@ -46,9 +46,14 @@ namespace InvataGermana
             }
         }
 
-        public void PrepareSuspension()
+        public string PrepareSuspension()
         {
-            contentFrame.GetNavigationState();
+            return contentFrame.GetNavigationState();
+        }
+
+        public void PrepareResum(string state)
+        {
+            contentFrame.SetNavigationState(state);
         }
     }
 }

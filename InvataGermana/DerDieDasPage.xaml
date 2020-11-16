@@ -99,18 +99,35 @@
                                 Click="btnDas_Click"/>
                     </StackPanel>
                 </Border>
-                <Border Margin="5"
+                <Border Margin="10"
                         BorderBrush="{x:Null}"
                         Grid.Row="4"
                         Grid.Column="0">
-                    <StackPanel>
-                        <TextBlock x:Name="textSuccess"
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Margin="10"
+                                    Grid.Row="0">
+                            <TextBlock x:Name="textSuccess"
                                    FontSize="40"></TextBlock>
-                        <TextBlock x:Name="textNounStats"
+                            <TextBlock x:Name="textNounStats"
                                    FontSize="30"></TextBlock>
-                        <TextBlock x:Name="textSessionStats"
+                            <TextBlock x:Name="textSessionStats"
                                    FontSize="30"></TextBlock>
-                    </StackPanel>
+                            <Button x:Name="btnClearResults"
+                                Content="Clear Results"
+                                FontSize="20"
+                                Click="btnClearResults_Click"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1">
+                                <TextBlock x:Name="textError"
+                                           FontSize="30"
+                                           Visibility="Collapsed"
+                                           Text="You need to select some lessons first!"/>
+                        </StackPanel>
+                    </Grid>
                 </Border>
             </Grid>
         </Grid>

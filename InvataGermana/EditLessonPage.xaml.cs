@@ -72,9 +72,22 @@ namespace InvataGermana
             if (string.IsNullOrEmpty(tbNouns.Text))
                 return;
 
-            var parts = tbNouns.Text.Split(';');
-            if (parts.Length != 2)
+            var translation = tbNouns.Text.Split('=');
+            if (translation.Length != 2)
+            {
+                AddErrorMessage("Please provide a translation");
                 return;
+            }
+
+            var germanForms = translation[0].Trim();
+            var translatedNoun = translation[1].Trim();
+
+            var parts = germanForms.Split(';');
+            if (parts.Length != 2)
+            {
+                AddErrorMessage("Need to provide singular and plural");
+                return;
+            }
 
             var s = parts[0];
             var p = parts[1];
@@ -92,10 +105,12 @@ namespace InvataGermana
                         Gen = gender,
                         Singular = ss.Trim(),
                         Plural = pp.Trim(),
-                        LessonID = lesson.ID
+                        Translation = translatedNoun,
+                        LessonId = lesson.ID
                     };
 
-                    db.nouns.Add(noun);
+                    var entry = db.nouns.Add(noun);
+
                     db.SaveChanges();
 
                     UpdateCurrentLesson(db);
@@ -124,7 +139,7 @@ namespace InvataGermana
             }
 
             var allnouns = dbContext.nouns.ToList();
-            var nouns = dbContext.nouns.Where(x => x.LessonID == lesson.ID).OrderBy(x => x.Singular).ToList();
+            var nouns = dbContext.nouns.Where(x => x.Lesson.ID == lesson.ID).OrderBy(x => x.Singular).ToList();
             listLessonNouns.ItemsSource = nouns;
             tbNounsCount.Text = $"Lesson [{lesson.Title}] has {nouns.Count()} nouns.";
         }
@@ -136,6 +151,10 @@ namespace InvataGermana
         private Noun GetCurrentNoun(ApplicationDbContext dbContext)
         {
             return listLessonNouns.SelectedItem as Noun;
+        }
+
+        private void AddErrorMessage(string error)
+        {
         }
     }
 }

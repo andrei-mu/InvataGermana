@@ -11,9 +11,10 @@
     <Grid>
         <Windows10FallCreatorsUpdate:NavigationView x:Name="nvSample" SelectionChanged="nvSample_SelectionChanged">
             <Windows10FallCreatorsUpdate:NavigationView.MenuItems>
-                <Windows10FallCreatorsUpdate:NavigationViewItem Icon="Character" Content="Lessons" Tag="LessonsPage" />
-                <Windows10FallCreatorsUpdate:NavigationViewItem Icon="Save" Content="Edit lesson" Tag="EditLessonPage" />
+                <Windows10FallCreatorsUpdate:NavigationViewItem Icon="Character" Content="Lessons" Tag="EditLessonPage" />
                 <Windows10FallCreatorsUpdate:NavigationViewItem Icon="Library" Content="Der Die Das ..." Tag="DerDieDasPage" />
+                <Windows10FallCreatorsUpdate:NavigationViewItem Icon="Import" Content="To german" Tag="ToGerman" />
+                <Windows10FallCreatorsUpdate:NavigationViewItem Icon="OpenPane" Content="From german" Tag="FromGerman" />
                 <!--<Windows10FallCreatorsUpdate:NavigationViewItem Icon="Download" Content="Menu Item4" Tag="SamplePage4" />-->
             </Windows10FallCreatorsUpdate:NavigationView.MenuItems>
             <Grid>

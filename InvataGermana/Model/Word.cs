@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace InvataGermana.Model
 {
-    class Noun
+    class Word
     {
+        public enum SpeechPart
+        {
+            Noun,
+            Verb,
+            Other
+        };
+
         public enum Gender
         {
             Der,
@@ -17,16 +24,27 @@ namespace InvataGermana.Model
         };
 
         public int ID { get; set; }
+        public SpeechPart SpeechType { get; set; }
         public Gender Gen { get; set; }
-        public string Singular { get; set; }
+        public string German { get; set; }
         public string Plural { get; set; }
         public string Translation { get; set; }
 
         public int LessonId { get; set; }
         public virtual Lesson Lesson { get; set; }
 
-        [NotMapped]
         public string ListCaption
+        {
+            get
+            {
+                if (IsNoun)
+                    return NounCaption;
+
+                return GenericCaption;
+            }
+        }
+
+        public string NounCaption
         {
             get
             {
@@ -34,19 +52,34 @@ namespace InvataGermana.Model
 
                 if (string.IsNullOrEmpty(Translation))
                 {
-                    return $"{gen} {Singular}; Die {Plural}";
+                    return $"{gen} {German}; Die {Plural}";
                 }
 
-                return $"{gen} {Singular}; Die {Plural} = [{Translation}]";
+                return $"{gen} {German}; Die {Plural} = [{Translation}]";
             }
         }
 
-        [NotMapped]
+        public string GenericCaption
+        {
+            get
+            {
+                return $"{German} = [{Translation}]";
+            }
+        }
+
         public string SingularCaption
         {
             get
             {
-                return $"{Gen.ToString()} {Singular}";
+                return $"{Gen.ToString()} {German}";
+            }
+        }
+
+        public bool IsNoun
+        {
+            get
+            {
+                return SpeechType == SpeechPart.Noun;
             }
         }
 

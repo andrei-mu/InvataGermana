@@ -27,11 +27,11 @@ namespace InvataGermana
     /// </summary>
     public sealed partial class DerDieDasPage : Page
     {
-        private List<Noun> selectedNouns = new List<Noun>();
+        private List<Word> selectedNouns = new List<Word>();
         private Dictionary<int, Tuple<int, int>> nounStats = new Dictionary<int, Tuple<int, int>>();
         private int noTries = 0;
         private int noSuccess = 0;
-        private Noun ActiveNoun { get; set; }
+        private Word ActiveNoun { get; set; }
         private readonly Random random = new Random();
 
         public DerDieDasPage()
@@ -114,7 +114,7 @@ namespace InvataGermana
 
             using (var db = new ApplicationDbContext())
             {
-                selectedNouns = db.nouns.Where(x => lessons.Any(y => y.ID == x.Lesson.ID)).ToList();
+                selectedNouns = db.words.Where(x => x.IsNoun && lessons.Any(y => y.ID == x.Lesson.ID)).ToList();
             }
 
             lessonsCount.Text = listViewLessons.SelectedItems.Count.ToString();
@@ -135,27 +135,27 @@ namespace InvataGermana
 
             int idx = random.Next(selectedNouns.Count);
             ActiveNoun = selectedNouns[idx];
-            currentNoun.Text = ActiveNoun.Singular;
+            currentNoun.Text = ActiveNoun.German;
 
             textError.Visibility = Visibility.Collapsed;
         }
 
         private void btnDer_Click(object sender, RoutedEventArgs e)
         {
-            DerDieDasOption(Noun.Gender.Der);
+            DerDieDasOption(Word.Gender.Der);
         }
 
         private void btnDie_Click(object sender, RoutedEventArgs e)
         {
-            DerDieDasOption(Noun.Gender.Die);
+            DerDieDasOption(Word.Gender.Die);
         }
 
         private void btnDas_Click(object sender, RoutedEventArgs e)
         {
-            DerDieDasOption(Noun.Gender.Das);
+            DerDieDasOption(Word.Gender.Das);
         }
 
-        private void DerDieDasOption(Noun.Gender gender)
+        private void DerDieDasOption(Word.Gender gender)
         {
             if (ActiveNoun == null)
             {

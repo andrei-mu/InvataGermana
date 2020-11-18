@@ -32,7 +32,6 @@ namespace InvataGermana
             {
                 listViewLessons.ItemsSource = db.lessons.OrderBy(x => x.Title).ToList();
             }
-
         }
 
         private void btnAddLesson_Click(object sender, RoutedEventArgs e)

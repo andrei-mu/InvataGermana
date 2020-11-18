@@ -11,7 +11,8 @@ namespace InvataGermana.Model
     {
         public int ID { get; set; }
         public string Title { get; set; }
-        public virtual ICollection<Noun> Nouns { get; set; }
+
+        public virtual ICollection<Word> Words{ get; set; }
 
         [NotMapped]
         public string ListCaption
@@ -20,6 +21,11 @@ namespace InvataGermana.Model
             {
                 return Title;
             }
+        }
+
+        public override string ToString()
+        {
+            return Title;
         }
     }
 }

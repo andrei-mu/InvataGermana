@@ -28,18 +28,20 @@ namespace InvataGermana.Migrations
                     b.ToTable("lessons");
                 });
 
-            modelBuilder.Entity("InvataGermana.Model.Noun", b =>
+            modelBuilder.Entity("InvataGermana.Model.Word", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Gen");
 
+                    b.Property<string>("German");
+
                     b.Property<int>("LessonId");
 
                     b.Property<string>("Plural");
 
-                    b.Property<string>("Singular");
+                    b.Property<int>("SpeechType");
 
                     b.Property<string>("Translation");
 
@@ -47,13 +49,13 @@ namespace InvataGermana.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("nouns");
+                    b.ToTable("words");
                 });
 
-            modelBuilder.Entity("InvataGermana.Model.Noun", b =>
+            modelBuilder.Entity("InvataGermana.Model.Word", b =>
                 {
                     b.HasOne("InvataGermana.Model.Lesson", "Lesson")
-                        .WithMany("Nouns")
+                        .WithMany("Words")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

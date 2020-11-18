@@ -37,19 +37,75 @@ namespace InvataGermana
             }
         }
 
+        private void btnAddLesson_Click(object sender, RoutedEventArgs e)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var lesson = new Lesson { Title = tbLessonName.Text };
+
+                db.lessons.Add(lesson);
+                db.SaveChanges();
+
+                listViewLessons.ItemsSource = db.lessons.ToList();
+            }
+
+            tbLessonName.Text = string.Empty;
+
+        }
+
+        private void btnDeleteLesson_Click(object sender, RoutedEventArgs e)
+        {
+            var item = listViewLessons.SelectedItem as Lesson;
+            if (item is null)
+            {
+                return;
+            }
+
+            using (var db = new ApplicationDbContext())
+            {
+                db.lessons.Remove(item);
+                db.SaveChanges();
+
+                listViewLessons.ItemsSource = db.lessons.ToList();
+            }
+        }
+
+        private void btnRenameLesson_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbLessonName.Text))
+                return;
+
+            using (var db = new ApplicationDbContext())
+            {
+                var lesson = GetCurrentLesson(db);
+
+                if (lesson != null)
+                {
+                    var dbLesson = db.lessons.SingleOrDefault(l => l.ID == lesson.ID);
+                    dbLesson.Title = tbLessonName.Text;
+
+                    db.SaveChanges();
+
+                    listViewLessons.ItemsSource = db.lessons.ToList();
+                }
+            }
+
+            tbLessonName.Text = string.Empty;
+        }
+
         private void btnDer_Click(object sender, RoutedEventArgs e)
         {
-            AddNoun(Noun.Gender.Der);
+            AddNoun(Word.Gender.Der);
         }
 
         private void btnDie_Click(object sender, RoutedEventArgs e)
         {
-            AddNoun(Noun.Gender.Die);
+            AddNoun(Word.Gender.Die);
         }
 
         private void btnDas_Click(object sender, RoutedEventArgs e)
         {
-            AddNoun(Noun.Gender.Das);
+            AddNoun(Word.Gender.Das);
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -60,14 +116,14 @@ namespace InvataGermana
 
                 if (noun != null)
                 {
-                    db.nouns.Remove(noun);
+                    db.words.Remove(noun);
                     db.SaveChanges();
                     UpdateCurrentLesson(db);
                 }
             }
         }
 
-        private void AddNoun(Noun.Gender gender)
+        private void AddNoun(Word.Gender gender)
         {
             if (string.IsNullOrEmpty(tbNouns.Text))
                 return;
@@ -100,22 +156,22 @@ namespace InvataGermana
                 var lesson = GetCurrentLesson(db);
                 if (lesson != null)
                 {
-                    Noun noun = new Noun
+                    Word noun = new Word
                     {
+                        SpeechType = Word.SpeechPart.Noun,
                         Gen = gender,
-                        Singular = ss.Trim(),
+                        German = ss.Trim(),
                         Plural = pp.Trim(),
                         Translation = translatedNoun,
                         LessonId = lesson.ID
                     };
 
-                    var entry = db.nouns.Add(noun);
+                    var entry = db.words.Add(noun);
 
                     db.SaveChanges();
 
                     UpdateCurrentLesson(db);
                 }
-
             }
 
             tbNouns.Text = string.Empty;
@@ -138,23 +194,86 @@ namespace InvataGermana
                 return;
             }
 
-            var allnouns = dbContext.nouns.ToList();
-            var nouns = dbContext.nouns.Where(x => x.Lesson.ID == lesson.ID).OrderBy(x => x.Singular).ToList();
+            var nouns = dbContext.words.Where(x => ((x.IsNoun) && (x.Lesson.ID == lesson.ID))).OrderBy(x => x.German).ToList();
+
             listLessonNouns.ItemsSource = nouns;
-            tbNounsCount.Text = $"Lesson [{lesson.Title}] has {nouns.Count()} nouns.";
+
+            var words = dbContext.words.Where(x => ((!x.IsNoun) && (x.Lesson.ID == lesson.ID))).OrderBy(x => x.German).ToList();
+            listLessonWords.ItemsSource = words;
+
+            tbNounsCount.Text = $"Lesson [{lesson.Title}] has {nouns.Count()} nouns and {words.Count()} words";
         }
         private Lesson GetCurrentLesson(ApplicationDbContext dbContext)
         {
             return listViewLessons.SelectedItem as Lesson;
         }
 
-        private Noun GetCurrentNoun(ApplicationDbContext dbContext)
+        private Word GetCurrentNoun(ApplicationDbContext dbContext)
         {
-            return listLessonNouns.SelectedItem as Noun;
+            return listLessonNouns.SelectedItem as Word;
+        }
+
+        private Word GetCurrentWord(ApplicationDbContext dbContext)
+        {
+            return listLessonWords .SelectedItem as Word;
         }
 
         private void AddErrorMessage(string error)
         {
+        }
+
+        private void btnWord_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbWords.Text))
+                return;
+
+            var wordParts = tbWords.Text.Split('=');
+            if (wordParts.Length != 2)
+            {
+                AddErrorMessage("Please provide a translation");
+                return;
+            }
+
+            var germanForms = wordParts[0].Trim();
+            var translation = wordParts[1].Trim();
+
+            using (var db = new ApplicationDbContext())
+            {
+                var lesson = GetCurrentLesson(db);
+                if (lesson != null)
+                {
+                    var word = new Word
+                    {
+                        SpeechType = Word.SpeechPart.Other,
+                        German = germanForms,
+                        Translation = translation,
+                        LessonId = lesson.ID
+                    };
+
+                    var entry = db.words.Add(word);
+
+                    db.SaveChanges();
+
+                    UpdateCurrentLesson(db);
+                }
+            }
+
+            tbWords.Text = string.Empty;
+        }
+
+        private void btnDeleteWord_Click(object sender, RoutedEventArgs e)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var word = GetCurrentWord(db);
+
+                if (word != null)
+                {
+                    db.words.Remove(word);
+                    db.SaveChanges();
+                    UpdateCurrentLesson(db);
+                }
+            }
         }
     }
 }

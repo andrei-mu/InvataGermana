@@ -11,11 +11,11 @@ namespace InvataGermana.Data
     class ApplicationDbContext : DbContext
     {
         public DbSet<Lesson> lessons { get; set; }
-        public DbSet<Noun> nouns{ get; set; }
+        public DbSet<Word> words { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=lessons.db");
+            optionsBuilder.UseSqlite("Data Source=lessons5.db");
             base.OnConfiguring(optionsBuilder);
         }
     }

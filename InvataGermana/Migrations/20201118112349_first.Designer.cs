@@ -9,8 +9,8 @@ using InvataGermana.Model;
 namespace InvataGermana.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201116181021_Initial")]
-    partial class Initial
+    [Migration("20201118112349_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,18 +29,20 @@ namespace InvataGermana.Migrations
                     b.ToTable("lessons");
                 });
 
-            modelBuilder.Entity("InvataGermana.Model.Noun", b =>
+            modelBuilder.Entity("InvataGermana.Model.Word", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Gen");
 
+                    b.Property<string>("German");
+
                     b.Property<int>("LessonId");
 
                     b.Property<string>("Plural");
 
-                    b.Property<string>("Singular");
+                    b.Property<int>("SpeechType");
 
                     b.Property<string>("Translation");
 
@@ -48,13 +50,13 @@ namespace InvataGermana.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("nouns");
+                    b.ToTable("words");
                 });
 
-            modelBuilder.Entity("InvataGermana.Model.Noun", b =>
+            modelBuilder.Entity("InvataGermana.Model.Word", b =>
                 {
                     b.HasOne("InvataGermana.Model.Lesson", "Lesson")
-                        .WithMany("Nouns")
+                        .WithMany("Words")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

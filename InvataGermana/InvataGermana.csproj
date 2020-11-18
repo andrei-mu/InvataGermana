@@ -132,17 +132,20 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20201116181021_Initial.cs" />
-    <Compile Include="Migrations\20201116181021_Initial.designer.cs">
-      <DependentUpon>20201116181021_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\20201118112349_first.cs" />
+    <Compile Include="Migrations\20201118112349_first.designer.cs">
+      <DependentUpon>20201118112349_first.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="Model\Lesson.cs" />
-    <Compile Include="Model\Noun.cs" />
+    <Compile Include="Model\Word.cs" />
     <Compile Include="NavPage.xaml.cs">
       <DependentUpon>NavPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToGermanPage.xaml.cs">
+      <DependentUpon>ToGermanPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -181,6 +184,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="NavPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToGermanPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

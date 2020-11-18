@@ -1,0 +1,120 @@
+﻿<Page
+    x:Class="InvataGermana.ToGermanPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InvataGermana"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="BlanchedAlmond">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="listViewLessons"
+                  Margin="10"
+                  BorderBrush="{ThemeResource SystemControlHyperlinkTextBrush}"
+                  Grid.Column="0"
+                  BorderThickness="2"
+                  SelectionMode="Multiple"
+                  SelectionChanged="listViewLessons_SelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Foreground="CornflowerBlue"
+                                   Margin="1"
+                                   Text="{Binding ListCaption}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="5"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Orientation="Horizontal">
+                    <TextBlock Text="You have selected" FontSize="18"/>
+                    <TextBlock x:Name="lessonsCount" Text="0" FontSize="18" FontWeight="Bold" Margin="5,0,5,0"/>
+                    <TextBlock Text="lessons containing" FontSize="18"/>
+                    <TextBlock x:Name="wordsCount" Text="0" FontSize="18" FontWeight="Bold" Margin="5,0,5,0"/>
+                    <TextBlock Text="words." FontSize="18"/>
+                </StackPanel>
+                <Border Margin="5"
+                        BorderBrush="{x:Null}"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Height="130">
+                    <TextBlock x:Name="currentNoun"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontSize="80"
+                               FontWeight="Bold" />
+                </Border>
+                <Border Margin="5"
+                        BorderBrush="{x:Null}"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Height="100">
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                        <TextBox x:Name="userTranslation"
+                                PlaceholderText="Enter translation in german"
+                                FontSize="30"
+                                Width="500"
+                                Background="DarkGray"
+                                Margin="10,0,10,0"/>
+                        <Button x:Name="btnCheck"
+                                Content="Check!"
+                                FontSize="40"
+                                Width="150"
+                                Margin="10,0,10,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Margin="10"
+                        BorderBrush="{x:Null}"
+                        Grid.Row="4"
+                        Grid.Column="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Margin="10"
+                                    Grid.Row="0">
+                            <TextBlock x:Name="textSuccess"
+                                   FontSize="40"></TextBlock>
+                            <Button x:Name="btnClearResults"
+                                Content="Clear Results"
+                                FontSize="20"
+                                Click="btnClearResults_Click"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1">
+                            <TextBlock x:Name="textError"
+                                           FontSize="30"
+                                           Visibility="Collapsed"
+                                           Text="You need to select some lessons first!"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

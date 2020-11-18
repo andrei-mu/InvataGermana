@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InvataGermana.Migrations
 {
-    public partial class Initial : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,22 +22,23 @@ namespace InvataGermana.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "nouns",
+                name: "words",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Autoincrement", true),
                     Gen = table.Column<int>(nullable: false),
+                    German = table.Column<string>(nullable: true),
                     LessonId = table.Column<int>(nullable: false),
                     Plural = table.Column<string>(nullable: true),
-                    Singular = table.Column<string>(nullable: true),
+                    SpeechType = table.Column<int>(nullable: false),
                     Translation = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_nouns", x => x.ID);
+                    table.PrimaryKey("PK_words", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_nouns_lessons_LessonId",
+                        name: "FK_words_lessons_LessonId",
                         column: x => x.LessonId,
                         principalTable: "lessons",
                         principalColumn: "ID",
@@ -45,15 +46,15 @@ namespace InvataGermana.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_nouns_LessonId",
-                table: "nouns",
+                name: "IX_words_LessonId",
+                table: "words",
                 column: "LessonId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "nouns");
+                name: "words");
 
             migrationBuilder.DropTable(
                 name: "lessons");

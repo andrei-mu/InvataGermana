@@ -112,7 +112,7 @@ namespace InvataGermana
         {
             using (var db = new ApplicationDbContext())
             {
-                var noun = GetCurrentNoun(db);
+                var noun = GetCurrentWord(db);
 
                 if (noun != null)
                 {
@@ -194,28 +194,19 @@ namespace InvataGermana
                 return;
             }
 
-            var nouns = dbContext.words.Where(x => ((x.IsNoun) && (x.Lesson.ID == lesson.ID))).OrderBy(x => x.German).ToList();
+            var allWords = dbContext.words.Where(x => x.Lesson.ID == lesson.ID).OrderBy(x => x.SpeechType).ThenBy(x => x.German.ToLower()).ToList();
+            listLessonNouns.ItemsSource = allWords;
 
-            listLessonNouns.ItemsSource = nouns;
-
-            var words = dbContext.words.Where(x => ((!x.IsNoun) && (x.Lesson.ID == lesson.ID))).OrderBy(x => x.German).ToList();
-            listLessonWords.ItemsSource = words;
-
-            tbNounsCount.Text = $"Lesson [{lesson.Title}] has {nouns.Count()} nouns and {words.Count()} words";
+            tbNounsCount.Text = $"Lesson [{lesson.Title}] has {allWords.Count()} words";
         }
         private Lesson GetCurrentLesson(ApplicationDbContext dbContext)
         {
             return listViewLessons.SelectedItem as Lesson;
         }
 
-        private Word GetCurrentNoun(ApplicationDbContext dbContext)
-        {
-            return listLessonNouns.SelectedItem as Word;
-        }
-
         private Word GetCurrentWord(ApplicationDbContext dbContext)
         {
-            return listLessonWords .SelectedItem as Word;
+            return listLessonNouns.SelectedItem as Word;
         }
 
         private void AddErrorMessage(string error)

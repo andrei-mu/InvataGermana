@@ -34,8 +34,7 @@
         <Grid Grid.Column="1">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="1*"/>
                     <RowDefinition Height="7*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -80,7 +79,7 @@
                     </Grid>
                 </StackPanel>
                 <ListView x:Name="listLessonNouns"
-                          Margin="5"
+                          Margin="10"
                           BorderBrush="{ThemeResource SystemControlHyperlinkTextBrush}"
                           Grid.Row="1"
                           Grid.Column="0"
@@ -89,64 +88,46 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Foreground="{ThemeResource SystemBaseHighColor}"
+                                <TextBlock Foreground="{Binding ItemColor}"
                                            Text="{Binding ListCaption}"
-                                           FontSize="12"/>
+                                           FontSize="14"
+                                           FontWeight="SemiBold"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <ListView x:Name="listLessonWords"
-                          Margin="5,5,5,10"
-                          BorderBrush="{ThemeResource SystemControlHyperlinkTextBrush}"
-                          Grid.Row="2"
-                          Grid.Column="0"
-                          BorderThickness="2"
-                          SelectionMode="Single">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Foreground="{ThemeResource SystemBaseHighColor}"
-                                           Text="{Binding ListCaption}"
-                                           FontSize="12"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <StackPanel Grid.Row="1" Grid.Column="1">
-                    <StackPanel Margin="0,0,0,10">
-                        <TextBox x:Name="tbNouns" Margin="5"/>
+                <StackPanel Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10">
+                    <StackPanel>
+                        <TextBox x:Name="tbNouns"/>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="btnDer"
                                 Content="Add DER"
-                                Margin="5"
+                                Margin="0,10,0,0"
                                 Click="btnDer_Click"/>
                             <Button x:Name="btnDie"
                                 Content="Add DIE"
-                                Margin="5"
+                                Margin="10,10,0,0"
                                 Click="btnDie_Click"/>
                             <Button x:Name="btnDas"
                                 Content="Add DAS"
-                                Margin="5"
+                                Margin="10,10,0,0"
                                 Click="btnDas_Click"/>
                             <Button x:Name="btnDelete"
                                 Content="Delete"
-                                Margin="20,0,0,0"
+                                Margin="20,10,0,0"
                                 Click="btnDelete_Click"/>
                         </StackPanel>
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Grid.Row="2" Grid.Column="1">
-                    <StackPanel Margin="0,0,0,10">
-                        <TextBox x:Name="tbWords" Margin="5"/>
-                        <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="tbWords" Margin="0,30,0,0"/>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,10,0,0">
                             <Button x:Name="btnAddWord"
                                 Content="Add word"
-                                Margin="5"
                                 Click="btnWord_Click"/>
                             <Button x:Name="btnDeleteWord"
                                 Content="Delete"
-                                Margin="5"
+                                Margin="10,0,0,0"
                                 Click="btnDeleteWord_Click"/>
                         </StackPanel>
                     </StackPanel>

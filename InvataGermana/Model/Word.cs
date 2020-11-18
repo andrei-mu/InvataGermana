@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace InvataGermana.Model
 {
@@ -56,6 +58,19 @@ namespace InvataGermana.Model
                 }
 
                 return $"{gen} {German}; Die {Plural} = [{Translation}]";
+            }
+        }
+
+        public Brush ItemColor
+        {
+            get
+            {
+                if (IsNoun)
+                {
+                    return new SolidColorBrush(Colors.ForestGreen);
+                }
+
+                return new SolidColorBrush(Colors.Maroon);
             }
         }
 

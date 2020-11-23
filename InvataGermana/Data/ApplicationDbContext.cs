@@ -15,7 +15,7 @@ namespace InvataGermana.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=lessons5.db");
+            optionsBuilder.UseSqlite("Data Source=lessons.db");
             base.OnConfiguring(optionsBuilder);
         }
     }

@@ -25,16 +25,20 @@ namespace InvataGermana
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class DerDieDasPage : Page
+    public sealed partial class WordsPracticePage : Page
     {
         private List<Word> selectedNouns = new List<Word>();
+        private List<Word> selectedWords = new List<Word>();
         private Dictionary<int, Tuple<int, int>> nounStats = new Dictionary<int, Tuple<int, int>>();
-        private int noTries = 0;
-        private int noSuccess = 0;
+        private Dictionary<int, Tuple<int, int>> translateStats = new Dictionary<int, Tuple<int, int>>();
+        private int nounTries = 0;
+        private int nounCorrect = 0;
+
         private Word ActiveNoun { get; set; }
+        private Word ActiveTranslation { get; set; }
         private readonly Random random = new Random();
 
-        public DerDieDasPage()
+        public WordsPracticePage()
         {
             this.InitializeComponent();
         }
@@ -63,14 +67,29 @@ namespace InvataGermana
                 container = localSettings.CreateContainer("DeutschPractice", Windows.Storage.ApplicationDataCreateDisposition.Always);
             }
 
+            nounStats = LoadStats(container, "derdiedas");
+
+        }
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            var container = localSettings.Containers["DeutschPractice"];
+
+            SaveStats(container, "derdiedas", nounStats);
+        }
+
+        private Dictionary<int, Tuple<int, int>> LoadStats(Windows.Storage.ApplicationDataContainer container, string containerValue)
+        {
             object derdiedasObj = null;
+            var retDict = new Dictionary<int, Tuple<int, int>>();
+
             if (false == container.Values.TryGetValue("derdiedas", out derdiedasObj))
-                return;
+                return retDict;
 
             var parts = derdiedasObj.ToString().Split(';');
 
             var regex = new Regex(@"(?<a>\d+)=\[(?<b>\d+),(?<c>\d+)\]");
-            foreach(var part in parts)
+            foreach (var part in parts)
             {
                 if (string.IsNullOrWhiteSpace(part))
                     continue;
@@ -82,31 +101,30 @@ namespace InvataGermana
                     if (gg.Count != 4)
                         continue;
 
-                    nounStats[int.Parse(gg[1].Value)] = new Tuple<int, int>(int.Parse(gg[2].Value),
+                    retDict[int.Parse(gg[1].Value)] = new Tuple<int, int>(int.Parse(gg[2].Value),
                                                                             int.Parse(gg[3].Value));
                 }
             }
 
-            return;
-        }
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            var container = localSettings.Containers["DeutschPractice"];
+            return retDict;
 
+        }
+
+        private void SaveStats(Windows.Storage.ApplicationDataContainer container, string containerValue, Dictionary<int, Tuple<int, int>> stats)
+        {
             var sb = new StringBuilder();
-            foreach( var key in nounStats.Keys)
+            foreach (var key in stats.Keys)
             {
-                var val = nounStats[key];
+                var val = stats[key];
                 var succ = val.Item1;
                 var total = val.Item2;
 
                 sb.Append($"{key}=[{succ},{total}];");
             }
 
-            container.Values["derdiedas"] = sb.ToString();
-        }
+            container.Values[containerValue] = sb.ToString();
 
+        }
 
         private void listViewLessons_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -114,13 +132,20 @@ namespace InvataGermana
 
             using (var db = new ApplicationDbContext())
             {
-                selectedNouns = db.words.Where(x => x.IsNoun && lessons.Any(y => y.ID == x.Lesson.ID)).ToList();
+                selectedWords = db.words.Where(x => lessons.Any(y => y.ID == x.Lesson.ID)).ToList();
+                selectedNouns = selectedWords.Where(x => x.IsNoun).ToList();
             }
 
             lessonsCount.Text = listViewLessons.SelectedItems.Count.ToString();
-            nounsCount.Text = selectedNouns.Count.ToString();
+            wordsCount.Text = selectedNouns.Count.ToString();
 
+            UpdateSelection();
+        }
+
+        private void UpdateSelection()
+        {
             UpdateSelectedNoun();
+            UpdateSelectedWord();
         }
 
         private void UpdateSelectedNoun()
@@ -129,15 +154,34 @@ namespace InvataGermana
             {
                 currentNoun.Text = string.Empty;
                 ActiveNoun = null;
+            }
+            else
+            {
+                int idx = random.Next(selectedNouns.Count);
+                ActiveNoun = selectedNouns[idx];
+                currentNoun.Text = ActiveNoun.German;
 
-                return;
+                textError.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void UpdateSelectedWord()
+        {
+            if (selectedWords.Count == 0)
+            {
+                currentWord.Text = string.Empty;
+                ActiveTranslation = null;
+            }
+            else
+            {
+                int idx = random.Next(selectedWords.Count);
+                ActiveTranslation = selectedWords[idx];
+                currentWord.Text = ActiveTranslation.German;
+
+                textError.Visibility = Visibility.Collapsed;
             }
 
-            int idx = random.Next(selectedNouns.Count);
-            ActiveNoun = selectedNouns[idx];
-            currentNoun.Text = ActiveNoun.German;
-
-            textError.Visibility = Visibility.Collapsed;
+            userTranslation.Text = string.Empty;
         }
 
         private void btnDer_Click(object sender, RoutedEventArgs e)
@@ -163,13 +207,13 @@ namespace InvataGermana
                 return;
             }
 
-            noTries++;
+            nounTries++;
             int trySucc = 0,
                 tryTot = 1;
 
             if (gender == ActiveNoun.Gen)
             {
-                noSuccess++;
+                nounCorrect++;
                 textSuccess.Foreground = new SolidColorBrush(Windows.UI.Colors.Green);
                 textSuccess.Text = $"Correct: {ActiveNoun.SingularCaption}";
 
@@ -197,16 +241,54 @@ namespace InvataGermana
 
             nounStats[ActiveNoun.ID] = new Tuple<int, int>(trySucc, tryTot);
             textNounStats.Text = $"{ActiveNoun.SingularCaption}: {trySucc} correct from {tryTot} tries";
-            textSessionStats.Text = $"{noSuccess} correct from {noTries} tries";
+            textSessionStats.Text = $"{nounCorrect} correct from {nounTries} tries";
 
             UpdateSelectedNoun();
         }
 
         private void btnClearResults_Click(object sender, RoutedEventArgs e)
         {
-            noTries = 0;
-            noSuccess = 0;
+            nounTries = 0;
+            nounCorrect = 0;
             nounStats.Clear();
+        }
+
+        private void btnTranslate_Click(object sender, RoutedEventArgs e)
+        {
+            if (ActiveTranslation == null || string.IsNullOrEmpty(userTranslation.Text))
+            {
+                UpdateSelectedWord();
+                return;
+            }
+
+            int trySucc = 0,
+                tryTot = 1;
+
+            if (userTranslation.Text.ToLower() == ActiveTranslation.Translation.ToLower())
+            {
+                nounCorrect++;
+                textWordSuccess.Foreground = new SolidColorBrush(Windows.UI.Colors.Green);
+                textWordSuccess.Text = $"Correct: {ActiveTranslation.German} = [{ActiveTranslation.Translation}]";
+
+                trySucc++;
+            }
+            else
+            {
+                textWordSuccess.Foreground = new SolidColorBrush(Windows.UI.Colors.Red);
+                textWordSuccess.Text = $"Error: {ActiveTranslation.German} = [{ActiveTranslation.Translation}]";
+            }
+
+            Tuple<int, int> tries;
+            if (translateStats.TryGetValue(ActiveTranslation.ID, out tries))
+            {
+                trySucc += tries.Item1;
+                tryTot += tries.Item2;
+            }
+
+            nounStats[ActiveNoun.ID] = new Tuple<int, int>(trySucc, tryTot);
+            textTranslateStats.Text = $"{ActiveTranslation.German}: {trySucc} correct from {tryTot} tries";
+
+            UpdateSelectedWord();
         }
     }
 

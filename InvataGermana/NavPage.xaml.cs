@@ -32,14 +32,11 @@ namespace InvataGermana
         {
             switch(args.SelectedItemContainer.Tag as string)
             {
-                case "LessonsPage":
-                    contentFrame.Navigate(typeof(LessonsPage));
-                    break;
                 case "EditLessonPage":
                     contentFrame.Navigate(typeof(EditLessonPage));
                     break;
-                case "DerDieDasPage":
-                    contentFrame.Navigate(typeof(DerDieDasPage));
+                case "WordsPracticePage":
+                    contentFrame.Navigate(typeof(WordsPracticePage));
                     break;
 
 

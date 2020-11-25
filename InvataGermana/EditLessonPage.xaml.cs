@@ -46,7 +46,7 @@ namespace InvataGermana
                 db.lessons.Add(lesson);
                 db.SaveChanges();
 
-                listViewLessons.ItemsSource = db.lessons.ToList();
+                listViewLessons.ItemsSource = db.lessons.OrderBy(x => x.Title).ToList();
             }
 
             tbLessonName.Text = string.Empty;
@@ -66,7 +66,7 @@ namespace InvataGermana
                 db.lessons.Remove(item);
                 db.SaveChanges();
 
-                listViewLessons.ItemsSource = db.lessons.ToList();
+                listViewLessons.ItemsSource = db.lessons.OrderBy(x => x.Title).ToList();
             }
         }
 
@@ -86,7 +86,7 @@ namespace InvataGermana
 
                     db.SaveChanges();
 
-                    listViewLessons.ItemsSource = db.lessons.ToList();
+                    listViewLessons.ItemsSource = db.lessons.OrderBy(x => x.Title).ToList();
                 }
             }
 
@@ -138,7 +138,8 @@ namespace InvataGermana
             var germanForms = translation[0].Trim();
             var translatedNoun = translation[1].Trim();
 
-            var parts = germanForms.Split(';');
+            var sep = ",;".ToCharArray();
+            var parts = germanForms.Split(sep, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 2)
             {
                 AddErrorMessage("Need to provide singular and plural");
@@ -194,9 +195,20 @@ namespace InvataGermana
                 return;
             }
 
-            var allWords = dbContext.words.Where(x => x.Lesson.ID == lesson.ID).OrderBy(x => x.SpeechType).ThenBy(x => x.German.ToLower()).ToList();
-            listLessonNouns.ItemsSource = allWords;
 
+            tbLessonName.Text = lesson.Title;
+
+            List<Word> allWords;
+            if (toggleOrder.IsOn)
+            {
+                allWords = dbContext.words.Where(x => x.Lesson.ID == lesson.ID).OrderBy(x => x.SpeechType).ThenBy(x => x.German.ToLower()).ToList();
+            }
+            else
+            {
+                allWords = dbContext.words.Where(x => x.Lesson.ID == lesson.ID).OrderBy(x => x.SpeechType).ThenBy(x => x.Gen).ThenBy(x => x.German.ToLower()).ToList();
+            }
+            
+            listLessonNouns.ItemsSource = allWords;
             tbNounsCount.Text = $"Lesson [{lesson.Title}] has {allWords.Count()} words";
         }
         private Lesson GetCurrentLesson(ApplicationDbContext dbContext)
@@ -264,6 +276,14 @@ namespace InvataGermana
                     db.SaveChanges();
                     UpdateCurrentLesson(db);
                 }
+            }
+        }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                UpdateCurrentLesson(db);
             }
         }
     }

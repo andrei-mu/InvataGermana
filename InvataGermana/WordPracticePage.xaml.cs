@@ -29,6 +29,8 @@ namespace InvataGermana
     {
         private List<Word> selectedNouns = new List<Word>();
         private List<Word> selectedWords = new List<Word>();
+        private List<Word> autoSuggWords = new List<Word>();
+
         private Dictionary<int, Tuple<int, int>> nounStats = new Dictionary<int, Tuple<int, int>>();
         private Dictionary<int, Tuple<int, int>> translateStats = new Dictionary<int, Tuple<int, int>>();
         private int nounTries = 0;
@@ -48,6 +50,8 @@ namespace InvataGermana
             using (var db = new ApplicationDbContext())
             {
                 listViewLessons.ItemsSource = db.lessons.OrderBy(x => x.Title).ToList();
+
+                autoSuggWords = db.words.ToList();
             }
         }
 
@@ -261,6 +265,11 @@ namespace InvataGermana
                 return;
             }
 
+            CheckUserTranslation();
+        }
+
+        private void CheckUserTranslation()
+        {
             int trySucc = 0,
                 tryTot = 1;
 
@@ -289,6 +298,26 @@ namespace InvataGermana
             textTranslateStats.Text = $"{ActiveTranslation.German}: {trySucc} correct from {tryTot} tries";
 
             UpdateSelectedWord();
+        }
+
+
+        private void userTranslation_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+                return;
+
+            if (userTranslation.Text.Length < 2)
+                return;
+
+            var text = userTranslation.Text;
+
+            var suggestion = autoSuggWords.Where(x => x.NormalizedTranslation.Contains(text)).Take(15).OrderBy(x => x.Translation).Select(x => x.Translation).ToArray();
+            userTranslation.ItemsSource = suggestion;
+        }
+
+        private void userTranslation_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            CheckUserTranslation();
         }
     }
 

@@ -57,7 +57,19 @@ namespace InvataGermana.Model
                     return $"{gen} {German}; Die {Plural}";
                 }
 
+                if (Plural == "-")
+                {
+                    return $"{gen} {German}; <n/a> = [{Translation}]";
+                }
                 return $"{gen} {German}; Die {Plural} = [{Translation}]";
+            }
+        }
+
+        public string NormalizedTranslation
+        {
+            get
+            {
+                return NormalizeString(Translation);
             }
         }
 
@@ -98,5 +110,29 @@ namespace InvataGermana.Model
             }
         }
 
+        private static string NormalizeString(string input)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in input)
+            {
+                char dia;
+                if (diacritics.TryGetValue(c, out dia))
+                    sb.Append(dia);
+                else
+                    sb.Append(c);
+            }
+
+            return sb.ToString();
+        }
+
+        private static Dictionary<char, char> diacritics = new Dictionary<char, char> {
+            { 'ă', 'a'},
+            { 'Ă', 'A'},
+            { 'ș', 's'},
+            { 'ț', 't'},
+            { 'â', 'a'},
+            { 'î', 'i'},
+        };
     }
 }

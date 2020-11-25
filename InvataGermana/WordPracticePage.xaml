@@ -94,20 +94,29 @@
                     <Grid Margin="5,20,5,5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="400"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock x:Name="currentWord"
                                    Grid.Column="0"
-                                   FontWeight="Bold" />
-                        <TextBox x:Name="userTranslation"
-                                 Grid.Column="1"
-                                 FontWeight="Bold" />
+                                   FontWeight="Bold"
+                                   FontSize="32"
+                                   Grid.ColumnSpan="2" />
+                        <AutoSuggestBox x:Name="userTranslation"
+                                        Grid.Column="1"
+                                        FontWeight="Bold"
+                                        ItemsSource="{Binding NounCaption}"
+                                        TextChanged="userTranslation_TextChanged"
+                                        QuerySubmitted="userTranslation_QuerySubmitted"
+                                        VerticalAlignment="Center"
+                                        Margin="10,0,0,0"/>
                         <Button x:Name="btnTranslate"
                                 Grid.Column="2"
                                 Content="Translate"
-                                Margin="10,0,10,0"
-                                Click="btnTranslate_Click"/>
+                                Click="btnTranslate_Click"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="10,0,10,0"/>
                     </Grid>
                     <StackPanel Margin="0,10,0,0">
                         <TextBlock x:Name="textWordSuccess"

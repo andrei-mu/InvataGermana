@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:InvataGermana"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded">
@@ -45,26 +45,47 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             Grid.ColumnSpan="2">
-                    <TextBlock x:Name="tbNounsCount"
+                    <Grid Background="AntiqueWhite">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="tbNounsCount"
                                 Margin="5,10,5,10"
                                 FontWeight="Bold"
                                 FontSize="16"/>
-                    <Grid>
+                        <ToggleSwitch x:Name="toggleOrder"
+                                      Grid.Column="1"
+                                      OffContent="Order by Article"
+                                      OnContent="Order by Noun"
+                                      IsOn="True"
+                                      HorizontalAlignment="Right"
+                                      Toggled="ToggleSwitch_Toggled"/>
+                    </Grid>
+                    <Grid Background="AntiqueWhite">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="8*"/>
-                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="11*"/>
+                            <ColumnDefinition Width="60*"/>
+                            <ColumnDefinition Width="678*"/>
+                            <ColumnDefinition Width="66*"/>
+                            <ColumnDefinition Width="300"/>
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="tbLessonName"
                                  TextWrapping="NoWrap"
-                                 Margin="0,10,0,10">
+                                 Margin="0,10,0,10" Grid.ColumnSpan="4">
                         </TextBox>
                         <StackPanel Orientation="Horizontal"
-                                    Grid.Column="1">
+                                    HorizontalAlignment="Left"
+                                    Grid.Column="4" Margin="21,0,0,0">
                             <Button x:Name="btnAddLesson"
                                     Content="Add lesson"
                                     Grid.Column="1"
                                     Margin="10"
-                                    Click="btnAddLesson_Click"/>
+                                    Click="btnAddLesson_Click">
+                                <Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="F5" Modifiers="Control"/>
+                                </Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
+                            </Button>
                             <Button x:Name="btnDeleteLesson"
                                     Content="Delete"
                                     Grid.Column="2"
@@ -103,17 +124,30 @@
                         <TextBox x:Name="tbNouns"/>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="btnDer"
-                                Content="Add DER"
-                                Margin="0,10,0,0"
-                                Click="btnDer_Click"/>
+                                    Content="Add DE(R)"
+                                    Margin="0,10,0,0"
+                                    Click="btnDer_Click">
+                                <Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="R" Modifiers="Control"/>
+                                </Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
+                            </Button>
                             <Button x:Name="btnDie"
-                                Content="Add DIE"
+                                Content="Add DI(E)"
                                 Margin="10,10,0,0"
-                                Click="btnDie_Click"/>
+                                Click="btnDie_Click">
+                                <Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="E" Modifiers="Control"/>
+                                </Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
+                            </Button>
                             <Button x:Name="btnDas"
-                                Content="Add DAS"
+                                Content="Add DA(S)"
                                 Margin="10,10,0,0"
-                                Click="btnDas_Click"/>
+                                Click="btnDas_Click">
+                                <Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="S" Modifiers="Control"/>
+                                </Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
+
+                            </Button>
                             <Button x:Name="btnDelete"
                                 Content="Delete"
                                 Margin="20,10,0,0"
@@ -123,8 +157,12 @@
                         <StackPanel Orientation="Horizontal"
                                     Margin="0,10,0,0">
                             <Button x:Name="btnAddWord"
-                                Content="Add word"
-                                Click="btnWord_Click"/>
+                                Content="Add (w)ord"
+                                Click="btnWord_Click">
+                                <Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="W" Modifiers="Control"/>
+                                </Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
+                            </Button>
                             <Button x:Name="btnDeleteWord"
                                 Content="Delete"
                                 Margin="10,0,0,0"

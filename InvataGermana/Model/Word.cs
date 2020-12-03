@@ -22,7 +22,8 @@ namespace InvataGermana.Model
         {
             Der,
             Die,
-            Das
+            Das,
+            None
         };
 
         public int ID { get; set; }
@@ -41,6 +42,9 @@ namespace InvataGermana.Model
             {
                 if (IsNoun)
                     return NounCaption;
+
+                if (IsVerb)
+                    return VerbCaption;
 
                 return GenericCaption;
             }
@@ -65,6 +69,27 @@ namespace InvataGermana.Model
             }
         }
 
+        public string VerbCaption
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Translation))
+                {
+                    if (Plural == "-")
+                        return $"{German}; <n/a>";
+
+                    return $"{German}; {Plural}";
+                }
+
+                if (Plural == "-")
+                {
+                    return $"{German}; <n/a> = [{Translation}]";
+                }
+                return $"{German}; {Plural} = [{Translation}]";
+            }
+        }
+
+
         public string NormalizedTranslation
         {
             get
@@ -80,6 +105,10 @@ namespace InvataGermana.Model
                 if (IsNoun)
                 {
                     return new SolidColorBrush(Colors.ForestGreen);
+                }
+                if (IsVerb)
+                {
+                    return new SolidColorBrush(Colors.Navy);
                 }
 
                 return new SolidColorBrush(Colors.Maroon);
@@ -107,6 +136,14 @@ namespace InvataGermana.Model
             get
             {
                 return SpeechType == SpeechPart.Noun;
+            }
+        }
+
+        public bool IsVerb
+        {
+            get
+            {
+                return SpeechType == SpeechPart.Verb;
             }
         }
 

@@ -119,9 +119,9 @@
                 </ListView>
                 <StackPanel Grid.Row="1"
                             Grid.Column="1"
-                            Margin="10">
+                            Margin="0,10,10,0">
                     <StackPanel>
-                        <TextBox x:Name="tbNouns"/>
+                        <TextBox x:Name="tbWords"/>
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="btnDer"
                                     Content="Add DE(R)"
@@ -133,7 +133,7 @@
                             </Button>
                             <Button x:Name="btnDie"
                                 Content="Add DI(E)"
-                                Margin="10,10,0,0"
+                                Margin="5,10,0,0"
                                 Click="btnDie_Click">
                                 <Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
                                     <KeyboardAccelerator Key="E" Modifiers="Control"/>
@@ -141,24 +141,15 @@
                             </Button>
                             <Button x:Name="btnDas"
                                 Content="Add DA(S)"
-                                Margin="10,10,0,0"
+                                Margin="5,10,0,0"
                                 Click="btnDas_Click">
                                 <Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
                                     <KeyboardAccelerator Key="S" Modifiers="Control"/>
                                 </Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
-
                             </Button>
-                            <Button x:Name="btnDelete"
-                                Content="Delete"
-                                Margin="20,10,0,0"
-                                Click="btnDelete_Click"/>
-                        </StackPanel>
-                        <TextBox x:Name="tbWords" Margin="0,30,0,0"/>
-                        <StackPanel Orientation="Horizontal"
-                                    Margin="0,10,0,0">
                             <Button x:Name="btnAddWord"
                                     Content="Add (w)ord"
-                                    Margin="5,0,5,0"
+                                    Margin="15,10,0,0"
                                     Click="btnWord_Click">
                                 <Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
                                     <KeyboardAccelerator Key="W" Modifiers="Control"/>
@@ -166,16 +157,17 @@
                             </Button>
                             <Button x:Name="btnAddVerb"
                                     Content="Add ver(b)"
-                                    Margin="5,0,5,0"
+                                    Margin="5,10,0,0"
                                     Click="btnAddVerb_Click">
                                 <Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
                                     <KeyboardAccelerator Key="B" Modifiers="Control"/>
                                 </Windows10FallCreatorsUpdate:Button.KeyboardAccelerators>
                             </Button>
                             <Button x:Name="btnDeleteWord"
-                                Content="Delete"
-                                Margin="5,0,5,0"
-                                Click="btnDeleteWord_Click"/>
+                                    Content="Delete"
+                                    HorizontalAlignment="Right"
+                                    Margin="20,10,0,0"
+                                    Click="btnDeleteWord_Click"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

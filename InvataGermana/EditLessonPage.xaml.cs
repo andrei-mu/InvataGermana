@@ -109,21 +109,6 @@ namespace InvataGermana
             AddNoun(Word.Gender.Das);
         }
 
-        private void btnDelete_Click(object sender, RoutedEventArgs e)
-        {
-            using (var db = new ApplicationDbContext())
-            {
-                var noun = GetCurrentWord(db);
-
-                if (noun != null)
-                {
-                    db.words.Remove(noun);
-                    db.SaveChanges();
-                    UpdateCurrentLesson(db);
-                }
-            }
-        }
-
         private async Task<bool> DisplayDuplicateWordDialog(string lessonName, string translation)
         {
             ContentDialog duplicateWordDialog = new ContentDialog
@@ -216,12 +201,12 @@ namespace InvataGermana
         }
         private void AddNoun(Word.Gender gender)
         {
-            if (string.IsNullOrEmpty(tbNouns.Text))
+            if (string.IsNullOrEmpty(tbWords.Text))
                 return;
 
-            AddGenericWord(tbNouns.Text, Word.SpeechPart.Noun, gender);
+            AddGenericWord(tbWords.Text, Word.SpeechPart.Noun, gender);
 
-            tbNouns.Text = string.Empty;
+            tbWords.Text = string.Empty;
         }
 
         private void listViewLessons_SelectionChanged(object sender, SelectionChangedEventArgs e)

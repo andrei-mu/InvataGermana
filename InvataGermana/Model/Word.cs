@@ -15,7 +15,9 @@ namespace InvataGermana.Model
         {
             Noun,
             Verb,
-            Other
+            Other,
+            Adjectiv,
+            Expression
         };
 
         public enum Gender
@@ -98,6 +100,14 @@ namespace InvataGermana.Model
             }
         }
 
+        public string NormalizedGerman
+        {
+            get
+            {
+                return NormalizeGermanString(German);
+            }
+        }
+
         public Brush ItemColor
         {
             get
@@ -109,6 +119,14 @@ namespace InvataGermana.Model
                 if (IsVerb)
                 {
                     return new SolidColorBrush(Colors.Navy);
+                }
+                if (IsAdjectif)
+                {
+                    return new SolidColorBrush(Colors.Chocolate);
+                }
+                if (IsExpression)
+                {
+                    return new SolidColorBrush(Colors.Violet);
                 }
 
                 return new SolidColorBrush(Colors.Maroon);
@@ -147,6 +165,22 @@ namespace InvataGermana.Model
             }
         }
 
+        public bool IsAdjectif
+        {
+            get
+            {
+                return SpeechType == SpeechPart.Adjectiv;
+            }
+        }
+
+        public bool IsExpression
+        {
+            get
+            {
+                return SpeechType == SpeechPart.Expression;
+            }
+        }
+
         private static string NormalizeString(string input)
         {
             StringBuilder sb = new StringBuilder();
@@ -163,6 +197,23 @@ namespace InvataGermana.Model
             return sb.ToString();
         }
 
+        private static string NormalizeGermanString(string input)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in input)
+            {
+                char dia;
+                if (germanDiacritics.TryGetValue(c, out dia))
+                    sb.Append(dia);
+                else
+                    sb.Append(c);
+            }
+
+            return sb.ToString();
+        }
+
+
         private static Dictionary<char, char> diacritics = new Dictionary<char, char> {
             { 'ă', 'a'},
             { 'Ă', 'A'},
@@ -170,6 +221,15 @@ namespace InvataGermana.Model
             { 'ț', 't'},
             { 'â', 'a'},
             { 'î', 'i'},
+        };
+
+        private static Dictionary<char, char> germanDiacritics = new Dictionary<char, char> {
+            { 'ä', 'a'},
+            { 'Ä', 'A'},
+            { 'ö', 'o'},
+            { 'Ö', 'O'},
+            { 'ü', 'u'},
+            { 'Ü', 'U'},
         };
     }
 }

@@ -55,6 +55,20 @@ namespace InvataGermana
             }
         }
 
+        private Lesson ActiveLesson
+        {
+            get
+            {
+                if (ActiveTranslation == null)
+                    return null;
+
+                using (var db = new ApplicationDbContext())
+                {
+                    return db.lessons.Where(x => x.ID == ActiveTranslation.LessonId).FirstOrDefault();
+                }
+            }
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
@@ -273,18 +287,21 @@ namespace InvataGermana
             int trySucc = 0,
                 tryTot = 1;
 
+            var lessonHdr = ActiveLesson.Title.Substring(0, 7);
+
             if (userTranslation.Text.ToLower() == ActiveTranslation.Translation.ToLower())
             {
                 nounCorrect++;
                 textWordSuccess.Foreground = new SolidColorBrush(Windows.UI.Colors.Green);
-                textWordSuccess.Text = $"Correct: {ActiveTranslation.German} = [{ActiveTranslation.Translation}]";
+
+                textWordSuccess.Text = $"Correct: {ActiveTranslation.German} = [{ActiveTranslation.Translation}] ({lessonHdr})";
 
                 trySucc++;
             }
             else
             {
                 textWordSuccess.Foreground = new SolidColorBrush(Windows.UI.Colors.Red);
-                textWordSuccess.Text = $"Error: {ActiveTranslation.German} = [{ActiveTranslation.Translation}]";
+                textWordSuccess.Text = $"Error: {ActiveTranslation.German} = [{ActiveTranslation.Translation}] ({lessonHdr})";
             }
 
             Tuple<int, int> tries;

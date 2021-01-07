@@ -154,8 +154,14 @@ namespace InvataGermana
                 return;
             }
 
-            var s = parts[0].ToLower().Trim();
-            var p = (parts.Length > 1)? parts[1].ToLower().Trim() : "";
+            var s = parts[0].Trim();
+            var p = (parts.Length > 1)? parts[1].Trim() : "";
+
+            if (part != Word.SpeechPart.Expression)
+            {
+                s = s.ToLower();
+                p = p.ToLower();
+            }
 
             if (part == Word.SpeechPart.Noun)
             {
@@ -298,6 +304,61 @@ namespace InvataGermana
 
             tbWords.Text = string.Empty;
 
+        }
+
+        private void btnAddAdjectiv_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbWords.Text))
+                return;
+
+            AddGenericWord(tbWords.Text, Word.SpeechPart.Adjectiv, Word.Gender.None);
+
+            tbWords.Text = string.Empty;
+        }
+
+        private void btnAddExpression_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbWords.Text))
+                return;
+
+            AddGenericWord(tbWords.Text, Word.SpeechPart.Expression, Word.Gender.None);
+
+            tbWords.Text = string.Empty;
+        }
+
+        private void userTranslation_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            var text = userTranslation.Text;
+
+            using (var db = new ApplicationDbContext())
+            {
+                var suggestion = db.words.Where(x => x.German == text).FirstOrDefault();
+                var lesson = db.lessons.Where(x => x.ID == suggestion.LessonId).FirstOrDefault();
+
+                if (suggestion != null)
+                {
+                    var temp = lesson.Title.Substring(0, 7);
+                    searchedWordTranslation.Text = $"{temp}:  {suggestion.Translation}";
+                }
+            }
+        }
+
+        private void allWords_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+                return;
+
+            if (sender.Text.Length < 2)
+                return;
+
+            var text = sender.Text.ToLower();
+
+            using (var db = new ApplicationDbContext())
+            {
+                var suggestion = db.words.Where(x => x.NormalizedGerman.ToLower().Contains(text)).Take(15).OrderBy(x => x.NormalizedGerman.ToLower().IndexOf(text)).ThenBy(x => x.NormalizedGerman).Select(x => x.German).ToArray();
+
+                sender.ItemsSource = suggestion;
+            }
         }
     }
 }

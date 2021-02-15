@@ -339,8 +339,11 @@ namespace InvataGermana
                 {
                     var temp = lesson.Title.Substring(0, 7);
                     searchedWordTranslation.Text = $"{temp}:  {suggestion.Translation}";
+                    searchedWordTranslation.DataContext = suggestion;
                 }
             }
+
+            HilightSelectedWord();
         }
 
         private void allWords_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -359,6 +362,26 @@ namespace InvataGermana
 
                 sender.ItemsSource = suggestion;
             }
+        }
+
+        private void gotoWord_Click(object sender, RoutedEventArgs e)
+        {
+            HilightSelectedWord();
+        }
+
+        private void HilightSelectedWord()
+        {
+            var crtWord = searchedWordTranslation.DataContext as Word;
+
+            if (crtWord == null)
+                return;
+
+            var lessonId = crtWord.LessonId;
+            var lesson = listViewLessons.Items.FirstOrDefault(x => (x as Lesson)?.ID == lessonId);
+            listViewLessons.SelectedItem = lesson;
+
+            var word = listLessonNouns.Items.FirstOrDefault(x => (x as Word)?.ID == crtWord.ID);
+            listLessonNouns.SelectedItem = word;
         }
     }
 }

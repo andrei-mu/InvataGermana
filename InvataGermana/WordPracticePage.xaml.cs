@@ -175,10 +175,33 @@ namespace InvataGermana
             }
             else
             {
-                int idx = random.Next(selectedNouns.Count);
-                ActiveNoun = selectedNouns[idx];
-                currentNoun.Text = ActiveNoun.German;
+                List<Word> shortList = new List<Word>();
+                for (int i = 0; i < 10; i++)
+                {
+                    int idx = random.Next(selectedNouns.Count);
+                    if (idx != ActiveNoun?.ID)
+                    {
+                        shortList.Add(selectedNouns[idx]);
+                    }
+                }
 
+                var ordered = shortList.OrderByDescending(x =>
+                {
+                    try
+                    {
+                        var vv = nounStats[x.ID];
+                        return (vv.Item2 - vv.Item1) * vv.Item2;
+                    }
+                    catch (Exception)
+                    {
+                        return 1000;
+                    }
+                });
+
+                var first = ordered.First();
+
+                ActiveNoun = first;
+                currentNoun.Text = ActiveNoun.German;
                 textError.Visibility = Visibility.Collapsed;
             }
         }
